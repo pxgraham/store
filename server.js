@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
-const stripe = require('stripe')(process.env.stripe_key);
+// const stripe = require('stripe')(process.env.stripe_key);
+const stripe = require('stripe')(process.env.test_key);
 
 const app = express();
 
@@ -18,12 +19,17 @@ app.post("/charge", function(req, res) {
     const token = req.body.stripeToken;
     (async () => {
         const charge = await stripe.charges.create({
-          amount: 1,
+          amount: 10,
           currency: 'usd',
           description: 'Example charge',
           source: token,
         });
-    })();
+    })().then(() => {
+        res.sendFile(path.join(__dirname, "./public/success.html"));
+    }).catch((error) => {
+        console.log(error)
+        res.sendFile(path.join(__dirname, "./public/failure.html"));
+    });
 });
 
 app.listen(PORT, function() {
