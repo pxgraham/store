@@ -19,7 +19,7 @@ app.post("/charge", function(req, res) {
     const token = req.body.stripeToken;
     (async () => {
         const charge = await stripe.charges.create({
-          amount: 10,
+          amount: 50,
           currency: 'usd',
           description: 'Example charge',
           source: token,
