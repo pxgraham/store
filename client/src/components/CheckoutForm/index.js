@@ -18,11 +18,19 @@ class CheckoutForm extends Component {
       amount: price
     });
   
-    if (response.ok) this.setState({complete: true});
+    if (response.ok) {
+      this.setState({complete: true});
+    } else {
+      this.setState({complete: 'error'});
+    }
   }
 
   render() {
-    if (this.state.complete) return <h1>Purchase Complete <a href="/">go back home</a></h1>;
+    if (this.state.complete) {
+      return <h1>Purchase Complete <a href="/">go back home</a></h1>;
+    } else if(this.state.complete === "error") {
+      <h1>error. try using 4242 4242 4242 4242   04/42 424 42424 <a href="/">or go back home</a></h1>;
+    }
     return (
       <div className="checkout">
         <p>Would you like to complete the purchase?</p>
