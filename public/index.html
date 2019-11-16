@@ -58,11 +58,9 @@
     </p>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        // livekey
-        // pk_live_aAwlrnA69lEusJrHMFQZWhv80001YIZM2i
-        //test key
-        // pk_test_Fb1tZ7c3nbonv7czSogOSoXi00qypfwXOp
-        var stripe = Stripe('pk_live_aAwlrnA69lEusJrHMFQZWhv80001YIZM2i');
+
+        var stripe = Stripe('pk_test_Fb1tZ7c3nbonv7czSogOSoXi00qypfwXOp');
+        // var stripe = Stripe('pk_live_aAwlrnA69lEusJrHMFQZWhv80001YIZM2i');
         var elements = stripe.elements();
         var style = {
             base: {
