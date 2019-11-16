@@ -1,37 +1,25 @@
 const express = require("express");
 const path = require("path");
-// const stripe = require('stripe')(process.env.stripe_key);
-const stripe = require('stripe')(process.env.test_key);
-
+const apiRoutes = require("./routes/apiRoutes");
+const PORT = process.env.PORT || 3001;
 const app = express();
 
-const PORT = process.env.PORT || 8080;
-
+//Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use("/public", express.static(__dirname + "/public"))
+app.use(express.json());
+// Serve up static assets on heroku
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
+
+app.use("/api", apiRoutes);
 
 app.get("*", function(req, res) {
-    res.sendFile(path.join(__dirname, "./public/index.html"));
+    res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
-app.post("/charge", function(req, res) {
-    const token = req.body.stripeToken;
-    (async () => {
-        const charge = await stripe.charges.create({
-          amount: 50,
-          currency: 'usd',
-          description: 'Example charge',
-          source: token,
-        });
-    })().then(() => {
-        res.sendFile(path.join(__dirname, "./public/success.html"));
-    }).catch((error) => {
-        console.log(error)
-        res.sendFile(path.join(__dirname, "./public/failure.html"));
-    });
-});
 
 app.listen(PORT, function() {
-  console.log("App listening on PORT: " + PORT);
+    console.log(`🌎 ==> API server now on port ${PORT}!`);
 });
