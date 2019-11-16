@@ -5,9 +5,10 @@ router.use(require("body-parser").text());
 // const stripe = require('stripe')(process.env.test_key);
 
 router.post("/charge", async (req, res) => {
+  console.log(req.price)
     try {
       let {status} = await stripe.charges.create({
-        amount: 2000,
+        amount: 1000,
         currency: "usd",
         description: "An example charge",
         source: req.body
